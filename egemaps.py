@@ -9,8 +9,10 @@ import matplotlib.pyplot as plt
 # requiere que en la carpeta solo hayan audios
 def egemaps_from_folder(folder):
     datos = []
+    contador = 0
     for file in os.listdir(folder):
         # cargamos el audio
+        print(contador)
         row = [file]
         extractor = opensmile.Smile(
             feature_set=opensmile.FeatureSet.eGeMAPSv01a,
@@ -21,10 +23,11 @@ def egemaps_from_folder(folder):
         for x in features[2].tolist()[0]:
             row.append(x)
         datos.append(row)
+        contador += 1
+        print(contador)
     cols = ["audio"]
     for x in extractor.feature_names:
         cols.append(x)
     df = pd.DataFrame(datos, columns=cols)
 
     return df
-
