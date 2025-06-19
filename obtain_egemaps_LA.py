@@ -9,3 +9,6 @@ folder = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_train/flac"
 df = egemaps.egemaps_from_folder(folder)
 
 print(df.columns.to_list())
+
+# save the data
+df.to_csv("egemaps_LA.csv")
