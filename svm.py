@@ -7,6 +7,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import LinearSVC
 import metrics
+from sklearn.metrics import classification_report
 
 # load the data
 folder_train = "egemaps_LA_train_labeled.csv"
@@ -22,7 +23,7 @@ x_eval = df_eval.drop(columns=["label", "audio"])
 # start with a linear SVC
 svm = Pipeline([
     ("scaler", StandardScaler()),
-    ("linear_svc", LinearSVC(C=1, loss="hinge")),
+    ("linear_svc", LinearSVC(C=1, loss="hinge", class_weight='balanced')),
 ])
 
 # fit the model with the training data
@@ -39,3 +40,5 @@ eer = metrics.compute_eer(y_true=y_eval, y_scores=y_scores)
 roc_auc, mas_cosas = metrics.plot_roc_curve(y_true=y_eval.values, y_scores=y_scores)
 
 print("accuracy: ", acc, "EER: ", eer, "AUC: ", roc_auc)
+print("Reporte ")
+print(classification_report(y_eval, y_pred))
