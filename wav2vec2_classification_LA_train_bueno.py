@@ -4,7 +4,8 @@ from use_wav2vec2 import get_embedding
 import os
 
 # --- CONFIGURACIÓN ---
-folder = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_train/flac"
+#folder = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_train/flac"
+folder = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_eval/flac"
 output_prefix = "embeddings_LA_train"
 batch_size = 1000
 
