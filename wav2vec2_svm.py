@@ -28,12 +28,12 @@ df_train = concatenate_label_data(
     "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_LA_train", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_train_labeled.csv"
     )
 
-#df_eval = concatenate_label_data(
-#    "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_LA_eval", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_eval_labeled.csv"
-#)
 df_eval = concatenate_label_data(
-    "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_HABLA", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_HABLA_labeled.csv"
+    "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_LA_eval", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_eval_labeled.csv"
 )
+#df_eval = concatenate_label_data(
+#    "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_HABLA", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_HABLA_labeled.csv"
+#)
 
 # train the linear svm
 x_train = df_train.drop(columns=["label", "audio"])
@@ -52,7 +52,7 @@ x_eval = np.vstack(x_eval["embedding"].values)
 # probamos con kernel polinomico
 svm = Pipeline([
     ("scaler", StandardScaler()),
-    ("svm_clf", SVC(kernel="poly", degree=6, coef0=1, C=5))
+    ("svm_clf", SVC(kernel="linear", C=0.1))
 ])
 
 svm.fit(x_train, y_train.values)

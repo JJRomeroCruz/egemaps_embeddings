@@ -15,8 +15,8 @@ df = pd.read_csv(folder_train)
 y_train = df["label"]
 x_train = df.drop(columns=["label", "audio"])
 
-#folder_eval = "egemaps_LA_eval_labeled.csv"
-folder_eval = "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_HABLA_labeled.csv"
+folder_eval = "egemaps_LA_eval_labeled.csv"
+#folder_eval = "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_HABLA_labeled.csv"
 df_eval = pd.read_csv(folder_eval)
 y_eval = df_eval["label"]
 x_eval = df_eval.drop(columns=["label", "audio"])
@@ -31,7 +31,7 @@ svm = Pipeline([
 # svc with polynomial kernel
 svm = Pipeline([
     ("scaler", StandardScaler()),
-    ("svm_clf", SVC(kernel="poly", degree=6, coef0=1, C=5))
+    ("svm_clf", SVC(kernel="linear", C=0.1))
 ])
 
 

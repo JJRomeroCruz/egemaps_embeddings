@@ -46,18 +46,49 @@ df_eval = pd.merge(df1_eval, df2_eval, on="audio")
 #print(df_train.columns, len(df_train))
 #print("Train: ", df_train.columns(), len(df_train))
 #print("Eval: ", df_eval.columns(), len(df_columns))
+print("Vamos a concatenar")
 features_df = pd.DataFrame(df_train["embedding"].tolist(),
                            index=df_train.index).add_prefix("feat_")
 df_train = df_train.drop(columns=["embedding"])
-print("Vamos a concatenar")
 df_train = pd.concat([df_train, features_df], axis=1)
+x_train = df_train.drop(columns=["label_x", "audio", "label_y", "Unnamed: 0.1", "Unnamed: 0"])
+y_train = df_train["label_x"]
 
-x = df_train.drop(columns=["label_x", "audio", "label_y", "Unnamed: 0.1", "Unnamed: 0"])
-y = df_train["label_x"]
-print("Vamos a probar el modelo de svm")
+features_df = pd.DataFrame(df_eval["embedding"].tolist(),
+                           index=df_eval.index).add_prefix("feat_")
+df_eval = df_eval.drop(columns=["embedding"])
+df_eval = pd.concat([df_eval, features_df], axis=1)
+x_eval = df_eval.drop(columns=["label_x", "audio", "label_y", "Unnamed: 0.1", "Unnamed: 0"])
+y_eval=df_eval["label_x"]
+
+print("fit the model")
+# fit the svc
+svm = Pipeline([
+    ("scaler", StandardScaler()),
+    ("svm_clf", SVC(kernel="linear", C=0.1))
+])
+
+svm.fit(x_train.values, y_train.values)
+
+# evaluate the model
+y_pred = svm.predict(x_eval.values)
+y_scores = svm.decision_function(x_eval.values)
+
+# compute accuracy and confusion matrix
+acc, m = metrics.evaluate_model(y_true=y_eval, y_pred=y_pred)
+eer = metrics.compute_eer(y_true=y_eval, y_scores=y_scores)
+roc_auc, mas_cosas = metrics.plot_roc_curve(y_true=y_eval.values, y_scores=y_scores)
+
+print("accuracy: ", acc, "EER: ", eer, "AUC: ", roc_auc)
+print("Reporte ")
+print(classification_report(y_eval, y_pred))
+
+"""
 # svc with polynomial kernel
 for kernel in ['linear', 'poly', 'rbf']:
     for degree in ([2, 3] if kernel == 'poly' else [None]):
         clf = SVC(kernel=kernel, degree=degree) if degree else SVC(kernel=kernel)
         scores = cross_val_score(clf, x.values, y.values, cv=5)
         print(f"Kernel={kernel}, Degree={degree}: Mean CV accuracy={scores.mean():.4f}") 
+"""
+

@@ -21,13 +21,18 @@ for root, dirs, files in os.walk(folder, topdown=False):
         if file.endswith('.wav'):
             full_path = os.path.join(root, file)
             print(f"[{contador}] Procesando: {file}")
+            
+            try:
 
-            emb = get_embedding(full_path)
-            if emb is None:
-                continue # salta si ha habido error ocn el audio
+                emb = get_embedding(full_path)
+            #if emb is None:
+            #    continue # salta si ha habido error ocn el audio
 
-            datos_batch.append([file, emb])
-            contador += 1
+                datos_batch.append([file, emb])
+                contador += 1
+            except RuntimeError as e:
+                print(f"Error procesando {audio_file}:{e}")
+                continue
 
             # guardamos cada N audios
             if contador % batch_size == 0:
