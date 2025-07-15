@@ -70,13 +70,13 @@ batch_size = 1000
 datos_batch = []
 cols = ["audio", "mfcc"]
 contador = 0
-lote = 0
+lote = 174
 
 # --- PROCESAMOS ---
 for root, dirs, files in os.walk(input_dir, topdown=False):
     for file in files:
         if file.endswith('.wav'):
-            if contador > 0:
+            if contador > int(lote*1000):
                 full_path = os.path.join(root, file)
                 print(f"[{contador}] Procesando: {file}")
 
@@ -116,5 +116,5 @@ for root, dirs, files in os.walk(input_dir, topdown=False):
 # --- GUARDAR EL RESTO ---
 if datos_batch:
     df = pd.DataFrame(datos_batch, columns=cols)
-    df.to_csv(f"{output_prefix}_batch{lote}.csv", index=False)
-    print(f"Guardado final: {output_prefix}_batch{lote}.csv con {len(df)} filas")
+    df.to_csv(f"{output_dir}_batch{lote}.csv", index=False)
+    print(f"Guardado final: {output_dir}_batch{lote}.csv con {len(df)} filas")
