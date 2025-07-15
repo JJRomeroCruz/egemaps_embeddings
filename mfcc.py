@@ -39,44 +39,25 @@ torchfbank = torch.nn.Sequential(
 )
 
 # Rutas
-input_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/MLAAD/fake"
-output_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/mel_MLAAD"
+#input_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/FinalDataset_16khz"
+#output_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/mel_HABLA"
+input_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_train/flac"
+#output_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/mel_LA_eval"
+output_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/mel_LA_train"
+
 os.makedirs(output_dir, exist_ok=True)
-
-"""
-# Procesamiento por lote
-audio_paths = glob(os.path.join(input_dir, "*.wav"))
-
-contador = 0
-for path in tqdm(audio_paths):
-    name = os.path.basename(path).replace('.wav', '.npy')
-    waveform, sr = torchaudio.load(path)
-    print("[", contador, "]", " ", path)
-
-    if sr != sample_rate:
-        waveform = torchaudio.functional.resample(waveform, sr, sample_rate)
-
-    with torch.no_grad():
-        x = waveform[0].unsqueeze(0)  # [1, T]
-        mel = torchfbank(x) + 1e-6
-        mel = mel.log()
-        mel = mel - mel.mean(dim=-1, keepdim=True)
-        mel = mel.squeeze(0).cpu().numpy()  # [n_mels, time]
-
-    np.save(os.path.join(output_dir, name), mel)
-"""
 
 batch_size = 1000
 datos_batch = []
 cols = ["audio", "mfcc"]
 contador = 0
-lote = 174
+lote = 0
 
 # --- PROCESAMOS ---
 for root, dirs, files in os.walk(input_dir, topdown=False):
     for file in files:
-        if file.endswith('.wav'):
-            if contador > int(lote*1000):
+        if file.endswith('.flac'):
+            if contador > 0:
                 full_path = os.path.join(root, file)
                 print(f"[{contador}] Procesando: {file}")
 
