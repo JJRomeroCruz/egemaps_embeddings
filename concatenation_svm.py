@@ -27,6 +27,7 @@ def concatenate_label_data(folder, label_file):
     return df
 
 # load the data
+"""
 df1_train = concatenate_label_data(
     "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_LA_train", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_train_labeled.csv"
     )
@@ -37,6 +38,21 @@ df1_eval = concatenate_label_data(
 df2_train = pd.read_csv(
     "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_train_labeled.csv"
     )
+df2_eval = pd.read_csv(
+    "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_eval_labeled.csv"
+    )
+"""
+df1_train = concatenate_label_data(
+    "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_MLAAD", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_MLAAD.csv"
+    )
+df1_eval = concatenate_label_data(
+    "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_LA_eval", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_eval_labeled.csv"
+)
+
+df2_train = pd.read_csv(
+    "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_MLAAD.csv"
+    )
+df2_train["audio"] = df2_train["audio"].apply(lambda x: x.replace(".wav", ""))
 df2_eval = pd.read_csv(
     "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_eval_labeled.csv"
     )
@@ -51,8 +67,10 @@ features_df = pd.DataFrame(df_train["embedding"].tolist(),
                            index=df_train.index).add_prefix("feat_")
 df_train = df_train.drop(columns=["embedding"])
 df_train = pd.concat([df_train, features_df], axis=1)
-x_train = df_train.drop(columns=["label_x", "audio", "label_y", "Unnamed: 0.1", "Unnamed: 0"])
-y_train = df_train["label_x"]
+#x_train = df_train.drop(columns=["label_x", "audio", "label_y", "Unnamed: 0.1", "Unnamed: 0"])
+x_train = df_train.drop(columns=["audio"])
+
+y_train = df_train["label"]
 
 features_df = pd.DataFrame(df_eval["embedding"].tolist(),
                            index=df_eval.index).add_prefix("feat_")
