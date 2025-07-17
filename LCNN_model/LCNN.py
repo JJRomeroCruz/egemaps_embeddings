@@ -11,7 +11,12 @@ class PreEmphasis(layers.Layer):
     def call(self, inputs):
         x = tf.expand_dims(inputs, -1) # esto tiene shape de [batch, time, 1]
         x = tf.pad(x, [[0, 0], [1, 0], [0, 0]], mode='REFLECT')
-        return tf.squeeze(tf.nn.conv1d(x, self.filter, stride=1, padding='VALID'), -1)
+        out = tf.nn.conv1d(x, self.filter, stride=1, padding='VALID')
+        if out.shape[-1] == 1:
+            return tf.squeeze(out, -1)
+        return out
+
+#        return tf.squeeze(tf.nn.conv1d(x, self.filter, stride=1, padding='VALID'), -1)
     
 
 def mfm(x):
@@ -22,22 +27,24 @@ def mfm(x):
     return tf.maximum(x1, x2)
 
 def build_lcnn(num_classes=2):
-    inp = layers.Input(shape=(None, ), name="waveform")
-    x = PreEmphasis()(inp)
+    x = layers.Input(shape=(None, 80), name="mel_input")
+    #x = PreEmphasis()(inp)
+    """
     x = tf.signal.stft(
-        x, frame_length=400, frame_step=160, fft_lenght=512, window_fn=tf.signal.hamming_window
+        x, frame_length=400, frame_step=160, fft_length=512, window_fn=tf.signal.hamming_window
         )
     x = tf.abs(x)
+    
     mel = tf.signal.linear_to_mel_weight_matrix(80, 257, 16000, 20.0, 7600.0)
     x = tf.tensordot(x, mel, axes=[-1, 0])
     x = tf.math.log(x + 1e-6)
     mean = tf.reduce_mean(x, axis=-1, keepdims=True)
     x = x - mean
     x = tf.expand_dims(x, -1) # [batch, time, n_mels, 1]
-
+    """
     # bloques convolucionales
     def conv_mfm_block(y, filters, k, pool=False):
-        y = layers.Conv2D(filters*2. k, padding='same')(y)
+        y = layers.Conv2D(filters*2, k, padding='same')(y)
         y=mfm(y)
         if pool:
             y = layers.MaxPool2D(2)(y)

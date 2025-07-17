@@ -41,9 +41,11 @@ torchfbank = torch.nn.Sequential(
 # Rutas
 #input_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/FinalDataset_16khz"
 #output_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/mel_HABLA"
-input_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_train/flac"
+#input_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_train/flac"
 #output_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/mel_LA_eval"
-output_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/mel_LA_train"
+#output_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/mel_LA_train"
+input_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/in_the_wild/release_in_the_wild"
+output_dir = "/home/juanjo/Documentos/eGeMAPS_embedding/mel_wild"
 
 os.makedirs(output_dir, exist_ok=True)
 
@@ -56,7 +58,7 @@ lote = 0
 # --- PROCESAMOS ---
 for root, dirs, files in os.walk(input_dir, topdown=False):
     for file in files:
-        if file.endswith('.flac'):
+        if file.endswith('.wav'):
             if contador > 0:
                 full_path = os.path.join(root, file)
                 print(f"[{contador}] Procesando: {file}")

@@ -28,12 +28,14 @@ df_train = concatenate_label_data(
     "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_LA_train", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_train_labeled.csv"
     )
 
+"""
 df_eval = concatenate_label_data(
     "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_LA_eval", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_eval_labeled.csv"
 )
-#df_eval = concatenate_label_data(
-#    "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_HABLA", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_HABLA_labeled.csv"
-#)
+"""
+df_eval = concatenate_label_data(
+    "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_HABLA", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_HABLA_labeled.csv"
+)
 
 # train the linear svm
 x_train = df_train.drop(columns=["label", "audio"])

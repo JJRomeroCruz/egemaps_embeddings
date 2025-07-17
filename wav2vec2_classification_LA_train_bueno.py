@@ -5,8 +5,10 @@ import os
 
 # --- CONFIGURACIÓN ---
 #folder = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_train/flac"
-folder = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_eval/flac"
-output_prefix = "embeddings_LA_train"
+#folder = "/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_eval/flac"
+folder = "/home/juanjo/Documentos/eGeMAPS_embedding/in_the_wild/release_in_the_wild"
+#output_prefix = "embeddings_LA_train"
+output_prefix = "embeddings_wild"
 batch_size = 1000
 
 # --- VARIABLES DE TRABAJO ---
@@ -17,7 +19,7 @@ lote = 0
 
 # --- PROCESAMIENTO ---
 for file in os.listdir(folder):
-    if file.endswith(".flac"):
+    if file.endswith(".wav"):
         full_path = os.path.join(folder, file)
         print(f"[{contador}] Procesando: {file}")
 

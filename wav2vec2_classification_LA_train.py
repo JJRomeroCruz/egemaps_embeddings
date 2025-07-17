@@ -29,9 +29,3 @@ df = pd.DataFrame(datos, columns=cols)
 #df = pd.merge(df, df_label.filter(items=["audios", "label"], axis=1), on="audios")
 
 df.to_csv("embeddings_LA_train.csv")  
-
-
-#emb = get_embedding("/home/juanjo/Documentos/eGeMAPS_embedding/ASVspoof2019_LA_train/flac/LA_T_1000137.flac")
-
-# vamos 
-#print(emb)
