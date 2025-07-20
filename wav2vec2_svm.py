@@ -20,6 +20,7 @@ def concatenate_label_data(folder, label_file):
     df["embedding"] = df["embedding"].apply(lambda x: np.fromstring(x.strip("[]"), sep=' '))
     df["audio"] = df["audio"].apply(lambda x: x.replace(".flac", ""))
     df["audio"] = df["audio"].apply(lambda x: x.replace(".wav", ""))
+    labels["audio"] = labels["audio"].apply(lambda x: x.replace(".wav", ""))
     df = pd.merge(df, labels.filter(items=["audio", "label"]), on="audio")
     print(len(df))
     return df
@@ -33,8 +34,13 @@ df_eval = concatenate_label_data(
     "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_LA_eval", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_LA_eval_labeled.csv"
 )
 """
+"""
 df_eval = concatenate_label_data(
     "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_HABLA", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_HABLA_labeled.csv"
+)
+"""
+df_eval = concatenate_label_data(
+    "/home/juanjo/Documentos/eGeMAPS_embedding/embeddings_WILD", "/home/juanjo/Documentos/eGeMAPS_embedding/egemaps_wild_labeled.csv"
 )
 
 # train the linear svm
