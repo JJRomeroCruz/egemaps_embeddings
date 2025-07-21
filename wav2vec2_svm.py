@@ -57,7 +57,7 @@ x_eval = np.vstack(x_eval["embedding"].values)
 #    ("scaler", StandardScaler()),
 #    ("linear_svc", LinearSVC(C=1, loss="hinge", class_weight='balanced')),
 #])
-# probamos con kernel polinomico
+# probamos con kernel lineal
 svm = Pipeline([
     ("scaler", StandardScaler()),
     ("svm_clf", SVC(kernel="linear", C=0.1))
