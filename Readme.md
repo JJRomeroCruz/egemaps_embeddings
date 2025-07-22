@@ -1,3 +1,7 @@
+# Acknowledgements
+
+Este repositorio se ha relizado bajo el marco del Mecanismo de Recuperación y Resiliencia de la Unión Europea-Next Generation, en el marco de la Invitación General de la entidad pública empresarial Red.es para participar en los programas de atracción y retención del talento dentro de la Inversión 4 del Componente 19 del Plan de Recuperación, Transformación y Resiliencia.
+
 This experiment is inspired in [this paper][https://arxiv.org/abs/2408.15775]
 # Install the repository
 
